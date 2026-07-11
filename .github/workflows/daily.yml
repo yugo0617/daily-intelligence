@@ -11,6 +11,8 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -33,6 +35,6 @@ jobs:
         run: |
           git config user.name "report-bot"
           git config user.email "report-bot@users.noreply.github.com"
-          git add reports/
+          git add src/reports/
           git diff --cached --quiet || git commit -m "Add daily economics report $(date '+%Y-%m-%d')"
           git push
