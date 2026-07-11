@@ -4,17 +4,17 @@ from datetime import datetime, timedelta
 
 
 TICKERS = {
-    "日経平均":    "^N225",
-    "TOPIX":       "^TPX",
-    "S&P500":      "^GSPC",
-    "ナスダック":  "^IXIC",
-    "ドル円":      "USDJPY=X",
-    "ユーロ円":    "EURJPY=X",
+    "日経平均":       "^N225",
+    "TOPIX(ETF)":     "1306.T",
+    "S&P500":         "^GSPC",
+    "ナスダック":     "^IXIC",
+    "ドル円":         "USDJPY=X",
+    "ユーロ円":       "EURJPY=X",
     "米10年債利回り": "^TNX",
-    "日10年債利回り": "^JGB10Y",
-    "WTI原油":     "CL=F",
-    "金":          "GC=F",
-    "BTC/USD":     "BTC-USD",
+    "日10年債先物":   "JGBL=F",
+    "WTI原油":        "CL=F",
+    "金":             "GC=F",
+    "BTC/USD":        "BTC-USD",
 }
 
 
