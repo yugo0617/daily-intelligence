@@ -1,0 +1,45 @@
+name: Weekly Reports
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * 0"
+      timezone: "Asia/Tokyo"
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        report:
+          - weekly_finance_ja
+          - weekly_servicenow_ja
+          - weekly_career_ja
+          - weekly_gadget_ja
+          - weekly_economics_en
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install openai requests
+
+      - name: Generate ${{ matrix.report }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+        run: |
+          cd src
+          python run.py ${{ matrix.report }}
+
+      - name: Commit report
+        run: |
+          git config user.name "report-bot"
+          git config user.email "report-bot@users.noreply.github.com"
+          git add reports/
+          git diff --cached --quiet || git commit -m "Add ${{ matrix.report }} $(date '+%Y-%m-%d')"
+          git push
