@@ -4,6 +4,7 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 from openai import OpenAI
+from market_data import fetch_market_snapshot
 
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
@@ -334,6 +335,17 @@ A Japanese IT engineer learning business English who is also a long-term index i
 
 def generate_report(report_type: str) -> str:
     prompt = PROMPTS[report_type]
+
+    if report_type in ("daily_economics_ja", "weekly_finance_ja"):
+        market_snapshot = fetch_market_snapshot()
+        prompt = f"""以下は本日取得した**実際の市場データ**です。レポート内の数値は必ずこのデータを使用してください。AIの学習データや推測で数値を補完することは絶対に禁止します。
+
+{market_snapshot}
+
+---
+
+{prompt}"""
+
     response = client.responses.create(
         model="gpt-4o",
         tools=[{"type": "web_search_preview"}],
