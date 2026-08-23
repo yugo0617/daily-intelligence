@@ -45,5 +45,8 @@ jobs:
           git config user.name "report-bot"
           git config user.email "report-bot@users.noreply.github.com"
           git add src/reports/
-          git diff --cached --quiet || git commit -m "Add ${{ matrix.report }} $(date '+%Y-%m-%d')"
+          git diff --cached --quiet && exit 0
+          git commit -m "Add ${{ matrix.report }} $(date '+%Y-%m-%d')"
+          git fetch origin main
+          git rebase origin/main
           git push
