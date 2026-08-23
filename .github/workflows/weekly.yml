@@ -12,6 +12,8 @@ jobs:
     permissions:
       contents: write
     strategy:
+      fail-fast: false
+      max-parallel: 1
       matrix:
         report:
           - weekly_finance_ja
